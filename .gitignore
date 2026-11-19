@@ -16,17 +16,37 @@
 
 # misc
 .DS_Store
+Thumbs.db
 *.pem
+*.log
 
 # debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# local env files
-.env*.local
+# env / secrets — never push
+.env
+.env.*
+!.env.example
 
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# editor / agent (local only)
 /.cursor
+/.vscode
+.idea
+
+# taste-skill local gate, Chrome profile, dumps, histories
+.taste-skill/
+
+# verification screenshots / crops
+/shots/
+**/taste-skill-consistency/
+
+# OS / temp
+*.tmp
+*.temp
+.cache/

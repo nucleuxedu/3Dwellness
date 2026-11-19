@@ -1,181 +1,117 @@
-import { useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import {
-  AppBar,
-  Box,
-  Button,
-  Container,
-  Drawer,
-  IconButton,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  Stack,
-  Toolbar,
-  Typography,
-} from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close";
-import { site } from "@/lib/siteContent";
+import { assets, site } from "@/lib/siteContent";
 
-const navLinks = [
-  { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
-  { label: "Plans", href: "/programs" },
-  { label: "Blog", href: "/blog" },
-  { label: "Contact", href: "/contact" },
-];
+const chevron = (
+  <svg className="chev" viewBox="0 0 12 12" aria-hidden="true">
+    <path
+      d="M3 4.5l3 3 3-3"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
 
 export default function Header() {
-  const router = useRouter();
-  const [open, setOpen] = useState(false);
-
   return (
-    <AppBar
-      position="sticky"
-      elevation={0}
-      sx={{
-        bgcolor: "background.default",
-        color: "text.primary",
-        borderBottom: "1px solid",
-        borderColor: "divider",
-      }}
-    >
-      <Container maxWidth="xl">
-        <Toolbar
-          disableGutters
-          sx={{
-            minHeight: { xs: 72, md: 88 },
-            justifyContent: "space-between",
-          }}
+    <header className="nav">
+      <div className="wrap nav__bar">
+        <a className="skip-link" href="#top">
+          Skip to content
+        </a>
+        <a className="nav__logo" href="/#top">
+          <span className="mark mark--initial" aria-hidden="true">
+            3
+          </span>
+          {site.name}
+        </a>
+        <nav className="nav__links" aria-label="Main">
+          <div className="nav__item">
+            <a className="nav__link" href="/#spaces">
+              Spaces {chevron}
+            </a>
+            <div className="nav__menu">
+              <div className="wrap grid">
+                <div className="menu-col span-3">
+                  <p className="t-label">Care and immersion</p>
+                  <a href="/#spaces">
+                    Healing Hub
+                    <span>Basement restorative care</span>
+                  </a>
+                  <a href="/#spaces">
+                    Immersion Lab
+                    <span>AI, AR and VR exhibits</span>
+                  </a>
+                </div>
+                <div className="menu-col span-3">
+                  <p className="t-label">Learning and gathering</p>
+                  <a href="/#spaces">
+                    Technology School
+                    <span>Training for youth and adults</span>
+                  </a>
+                  <a href="/#spaces">
+                    Community Commons
+                    <span>Kitchen, events, greenhouse</span>
+                  </a>
+                </div>
+                <a className="menu-card span-3 start-10" href="/#spaces">
+                  <div className="panel">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      className="frame__img"
+                      src={assets.immersionLab}
+                      alt="5D Wellness Immersion Lab render"
+                    />
+                  </div>
+                  <span className="t-card">Four planned spaces</span>
+                  <span className="t-small muted">Downtown St. Paul hub</span>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div className="nav__item">
+            <a className="nav__link" href="/#about">
+              About
+            </a>
+          </div>
+          <div className="nav__item">
+            <a className="nav__link" href="/#vision">
+              Vision
+            </a>
+          </div>
+          <div className="nav__item">
+            <a className="nav__link" href="/#message">
+              Contact
+            </a>
+          </div>
+        </nav>
+        <div className="nav__actions">
+          <a className="btn btn--primary" href="/#message">
+            Send a message
+          </a>
+        </div>
+        <button
+          className="nav__toggle"
+          type="button"
+          aria-expanded="false"
+          aria-label="Menu"
         >
-          <Box>
-            <Typography
-              component={Link}
-              href="/"
-              variant="h6"
-              sx={{
-                fontWeight: 600,
-                color: "text.primary",
-                textDecoration: "none",
-                letterSpacing: "-0.02em",
-                display: "block",
-                lineHeight: 1.2,
-              }}
-            >
-              {site.name}
-            </Typography>
-            <Typography
-              variant="labelSm"
-              sx={{ display: { xs: "none", sm: "block" }, opacity: 0.7 }}
-            >
-              {site.tagline}
-            </Typography>
-          </Box>
-
-          {/* <Stack
-            direction="row"
-            spacing={4}
-            alignItems="center"
-            sx={{ display: { xs: "none", md: "flex" } }}
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 18 18"
+            aria-hidden="true"
           >
-            {navLinks.map((link) => (
-              <Typography
-                key={link.href}
-                component={Link}
-                href={link.href}
-                variant="navLink"
-                sx={{
-                  color:
-                    router.pathname === link.href
-                      ? "primary.dark"
-                      : "text.primary",
-                  borderBottom:
-                    router.pathname === link.href
-                      ? "2px solid"
-                      : "2px solid transparent",
-                  borderColor:
-                    router.pathname === link.href
-                      ? "primary.main"
-                      : "transparent",
-                  pb: 0.5,
-                  transition: "border-color 0.2s ease",
-                  "&:hover": {
-                    color: "primary.dark",
-                  },
-                }}
-              >
-                {link.label}
-              </Typography>
-            ))}
-            <Button
-              component={Link}
-              href="/contact"
-              variant="contained"
-              color="primary"
-              sx={{ width: { md: 200 }, px: 3 }}
-            >
-              Connect with us
-            </Button>
-          </Stack>
-
-          <IconButton
-            aria-label="Open menu"
-            onClick={() => setOpen(true)}
-            sx={{
-              display: { xs: "inline-flex", md: "none" },
-              color: "text.primary",
-            }}
-          >
-            <MenuIcon />
-          </IconButton> */}
-        </Toolbar>
-      </Container>
-
-      <Drawer
-        anchor="right"
-        open={open}
-        onClose={() => setOpen(false)}
-        PaperProps={{
-          sx: { width: 280, p: 2, bgcolor: "background.default" },
-        }}
-      >
-        <Box display="flex" justifyContent="flex-end" mb={2}>
-          <IconButton onClick={() => setOpen(false)} aria-label="Close menu">
-            <CloseIcon />
-          </IconButton>
-        </Box>
-        <List>
-          {navLinks.map((link) => (
-            <ListItem key={link.href} disablePadding>
-              <ListItemButton
-                component={Link}
-                href={link.href}
-                onClick={() => setOpen(false)}
-              >
-                <ListItemText
-                  primary={link.label}
-                  primaryTypographyProps={{ variant: "navLink" }}
-                />
-              </ListItemButton>
-            </ListItem>
-          ))}
-          <ListItem sx={{ mt: 2 }}>
-            <Button
-              component={Link}
-              href="/contact"
-              variant="contained"
-              color="primary"
-              fullWidth
-              onClick={() => setOpen(false)}
-            >
-              Connect with us
-            </Button>
-          </ListItem>
-        </List>
-      </Drawer>
-    </AppBar>
+            <path
+              d="M2 5h14M2 13h14"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+            />
+          </svg>
+        </button>
+      </div>
+    </header>
   );
 }

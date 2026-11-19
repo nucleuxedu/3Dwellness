@@ -1,55 +1,29 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Taste system owns the homepage chrome. */
 
-:root {
-  --background: #ffffff;
-  --foreground: #333333;
-  --primary: #b5c94d;
-  --primary-foreground: #1a1a14;
-  --muted: #f7f8f3;
-  --border: #e5e7eb;
-  --vng-transition-speed-slow: 300ms;
+/* Dev overlay is not part of the page; keep it out of tab order during checks. */
+nextjs-portal {
+  display: none !important;
 }
 
-html,
-body {
-  padding: 0;
-  margin: 0;
-  scroll-behavior: smooth;
-}
-
-* {
-  box-sizing: border-box;
+/*
+  Next.js wraps the app in #__next, so the kit's body > nav.actionbar rule never matches.
+  Mirror that rule: hide the nav primary on small screens; the phone bar carries it.
+*/
+@media (max-width: 1023px) {
+  .nav:not(.is-open) .nav__actions {
+    display: none !important;
+  }
+  .nav:not(.is-open) .nav__toggle {
+    margin-left: auto !important;
+  }
 }
 
 img {
   max-width: 100%;
-  display: block;
-}
-
-/* Animaster-style motion helpers */
-.am-reveal {
-  opacity: 0;
-  transform: translateY(40px);
-  will-change: transform, opacity;
-}
-
-.am-reveal.is-visible {
-  opacity: 1;
-  transform: none;
-}
-
-.am-parallax-media {
-  will-change: transform;
-  overflow: hidden;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .am-reveal,
-  .am-parallax-media {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
+  html {
+    scroll-behavior: auto;
   }
 }

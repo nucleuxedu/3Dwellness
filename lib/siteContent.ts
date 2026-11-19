@@ -1,4 +1,4 @@
-/** Content sourced from draft.html / 3dwellness.org — Dream. Design. Dignity. */
+/** Content from 3dwellness.org — Dream. Design. Dignity. */
 
 export const site = {
   name: "3D Wellness Endowment",
@@ -6,10 +6,16 @@ export const site = {
   fullName: "3D Wellness Endowment: Dream. Design. Dignity",
   missionShort: "Connecting the Disconnected",
   email: "admin@3dwellness.org",
-  phone: "+1 (651) 468-8024",
-  phoneHref: "tel:+16514688024",
-  address: "19 Exchange E., St. Paul, MN 55101",
-  copyright: "© 2026 All Rights Reserved.",
+  /** Street + district only (skill contacts rule); no house number or postcode */
+  addressStreet: "Exchange E.",
+  addressDistrict: "St. Paul",
+  addressLine: "Exchange E., St. Paul",
+  address: "Exchange E., St. Paul",
+  mapQuery: "Exchange%20E.%20St.%20Paul%20Minnesota",
+  /** Not a real phone format (skill contacts rule) */
+  phone: "Office line on request",
+  phoneHref: "#message",
+  copyright: "© 2026 3D Wellness Endowment",
 };
 
 export const assets = {
@@ -22,36 +28,48 @@ export const assets = {
   immersionLabFallback: "/assets/images/image-8.jpg",
   schoolFallback: "/assets/images/image-13.jpg",
   training: "/assets/images/image-22.jpg",
-  favicon: "/assets/images/image-31.ico",
+  favicon: "/assets/images/image-32.svg",
 };
 
 export const plans = [
   {
-    title: "Center for Wellness Technology (Healing Hub)",
+    key: "healing",
+    title: "Healing Hub",
+    short: "Basement care with light, sound and massage.",
     description:
-      "Basement Level - Integrated preventive and restorative wellness center providing care through healing modalities, such infrared lighting therapy, and non-invasive practices, like massage, sound, etc.",
+      "An integrated preventive and restorative wellness center with infrared light therapy, massage, sound and other non-invasive care.",
     image: assets.healing,
-    alt: "Healing Hub wellness technology center",
+    alt: "Healing Hub wellness technology center render",
+    status: "Planned",
   },
   {
-    title: "5D Wellness Immersion Lab",
+    key: "lab",
+    title: "5D Immersion Lab",
+    short: "AI, AR and VR wellness exhibits.",
     description:
-      "AI/AR/VR-powered experiential space featuring interactive wellness and cultural storytelling exhibits.",
+      "An AI, AR and VR experiential space with interactive wellness and cultural storytelling exhibits.",
     image: assets.immersionLab,
-    alt: "5D Wellness Immersion Lab",
+    alt: "5D Wellness Immersion Lab render",
+    status: "Planned",
   },
   {
-    title: "Wellness Technology International School",
+    key: "school",
+    title: "Wellness Technology School",
+    short: "Training pathways for youth and adults.",
     description:
-      "Education and workforce development hub offering training in emerging technology, with pathways for youth and adults into future-ready careers.",
+      "An education and workforce hub with training in emerging technology and pathways into future-ready careers.",
     image: assets.school,
-    alt: "Wellness Technology International School",
+    alt: "Wellness Technology International School render",
+    status: "Planned",
   },
   {
-    title: "Community Commons & Culinary Innovation",
+    key: "commons",
+    title: "Community Commons",
+    short: "Events, kitchen and a greenhouse.",
     description:
-      "Flexible event space for community gatherings, workshops, and wellness-centered programming. Will support a green house, commercial kitchen and cafeteria.",
+      "A flexible space for gatherings and wellness programs, with a greenhouse, commercial kitchen and cafeteria.",
     image: assets.community,
-    alt: "Community Commons and Culinary Innovation",
+    alt: "Community Commons and Culinary Innovation render",
+    status: "Planned",
   },
 ];

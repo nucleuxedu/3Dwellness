@@ -1,10 +1,13 @@
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { CacheProvider, EmotionCache } from "@emotion/react";
-import { ThemeProvider, CssBaseline } from "@mui/material";
+import { ThemeProvider } from "@mui/material";
 import theme from "@/theme/theme";
 import createEmotionCache from "@/theme/createEmotionCache";
-import Layout from "@/components/Layout";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import TasteBoot from "@/components/TasteBoot";
+import { assets, site } from "@/lib/siteContent";
 import "@/styles/globals.css";
 
 const clientSideEmotionCache = createEmotionCache();
@@ -14,25 +17,50 @@ export interface MyAppProps extends AppProps {
 }
 
 export default function MyApp(props: MyAppProps) {
-  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+  const { Component, emotionCache = clientSideEmotionCache, pageProps, router } =
+    props;
+  const isHome = router.pathname === "/";
 
   return (
-    <CacheProvider value={emotionCache}>
+    <>
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
-        <title>3D Wellness Endowment: Dream. Design. Dignity</title>
+        <title>{site.fullName}</title>
         <meta
           name="description"
-          content="Developing a 3D Wellness Hub at St. Paul Downtown — America's first comprehensive Wellness City."
+          content="A non-profit wellness hub planned for downtown St. Paul — four spaces for care, immersion, training and community."
         />
-        <link rel="icon" href="/assets/images/image-32.svg" type="image/svg+xml" />
+        <meta
+          property="og:title"
+          content="3D Wellness Endowment — wellness hub for downtown St. Paul"
+        />
+        <meta
+          property="og:description"
+          content="Four planned spaces for care, immersion, training and community in America's first comprehensive Wellness City."
+        />
+        <meta property="og:image" content={assets.hero} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <link rel="icon" href={assets.favicon} type="image/svg+xml" />
       </Head>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Layout>
+      <Header />
+      <main id="top">
+        {isHome ? (
           <Component {...pageProps} />
-        </Layout>
-      </ThemeProvider>
-    </CacheProvider>
+        ) : (
+          <CacheProvider value={emotionCache}>
+            <ThemeProvider theme={theme}>
+              <Component {...pageProps} />
+            </ThemeProvider>
+          </CacheProvider>
+        )}
+      </main>
+      <Footer />
+      <nav className="actionbar" aria-label="Quick actions">
+        <a className="btn btn--primary" href="/#message">
+          Send a message
+        </a>
+      </nav>
+      <TasteBoot />
+    </>
   );
 }
