@@ -61,8 +61,8 @@ export default function HomePage() {
 
       {/* about · use · 1 screen · photo: training image-22 (unique) */}
       <section className="section" id="about" aria-labelledby="about-h">
-        <div className="wrap grid grid--middle">
-          <div className="span-6">
+        <div className="wrap justify-center">
+          <div className="span-12">
             <div className="section-head">
               <h2 id="about-h">
                 The endowment in St. Paul.{" "}
@@ -75,15 +75,7 @@ export default function HomePage() {
               </p>
             </div>
           </div>
-          <div className="frame frame--photo frame--split span-6 start-7">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              className="frame__img"
-              src={assets.training}
-              alt="Immersive technology training for wellness careers"
-              loading="lazy"
-            />
-          </div>
+          
         </div>
       </section>
 
@@ -122,7 +114,25 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* vision · full-width photo · image-13 (unique) */}
+      {/* word-highlight moment · type · 1 screen · between photo sections */}
+      <section
+        className="section statement"
+        id="dignity"
+        style={{ ["--h" as string]: 1 }}
+        data-moment="word-highlight"
+        aria-label="Dream Design Dignity"
+      >
+        <div className="wrap">
+          <p className="t-label">{site.tagline}</p>
+          <p className="mo-wh__text">
+            We dream the spaces, design the wellness technology, and keep access
+            open so every neighbour in downtown St. Paul can live with{" "}
+            <strong>dignity</strong>.
+          </p>
+        </div>
+      </section>
+
+      {/* vision · photo · image-13 · phone frame is taller so contact sits on the next screen */}
       <section className="section" id="vision" aria-labelledby="vision-h">
         <div className="wrap grid grid--middle">
           <div className="span-5">
@@ -151,25 +161,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* word-highlight moment · type · 1 screen */}
-      <section
-        className="section statement"
-        id="dignity"
-        style={{ ["--h" as string]: 1 }}
-        data-moment="word-highlight"
-        aria-label="Dream Design Dignity"
-      >
-        <div className="wrap">
-          <p className="t-label">{site.tagline}</p>
-          <p className="mo-wh__text">
-            We dream the spaces, design the wellness technology, and keep access
-            open so every neighbour in downtown St. Paul can live with{" "}
-            <strong>dignity</strong>.
-          </p>
-        </div>
-      </section>
-
-      {/* message · booking-form · photo: immersion fallback image-8 (unique) */}
+      {/* contact · booking form, no photograph */}
       <section className="section" id="message" aria-labelledby="message-h">
         <div className="wrap grid grid--top">
           <div className="span-5">
@@ -180,78 +172,71 @@ export default function HomePage() {
                 back from {site.addressDistrict}.
               </p>
             </div>
-            <form
-              className="form"
-              action={`mailto:${site.email}`}
-              method="post"
-              encType="text/plain"
-              data-endpoint=""
-              data-sent="Your message is in. We reply within a day."
-              noValidate
-            >
-              <div className="field">
-                <label htmlFor="f-name">Name</label>
-                <input
-                  id="f-name"
-                  name="name"
-                  type="text"
-                  autoComplete="name"
-                  required
-                  aria-describedby="f-name-err"
-                />
-                <p className="field__error" id="f-name-err" hidden>
-                  Write the name we should reply to.
-                </p>
-              </div>
-              <div className="field">
-                <label htmlFor="f-email">Email</label>
-                <input
-                  id="f-email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  inputMode="email"
-                  required
-                  aria-describedby="f-email-err"
-                />
-                <p className="field__error" id="f-email-err" hidden>
-                  Write an email address with an @, like name@example.com.
-                </p>
-              </div>
-              <div className="field">
-                <label htmlFor="f-note">Message</label>
-                <textarea
-                  id="f-note"
-                  name="message"
-                  rows={4}
-                  required
-                  aria-describedby="f-note-err"
-                />
-                <p className="field__error" id="f-note-err" hidden>
-                  Write what you want to ask or share.
-                </p>
-              </div>
-              <div className="btn-row">
-                <button className="btn btn--primary" type="submit">
-                  Send a message
-                </button>
-              </div>
-              <p className="form__status" role="status" data-form-status="" />
-              <p className="t-small muted">We reply within a day.</p>
-            </form>
+            <address className="footer__address">{site.addressLine}</address>
+            <p style={{ marginTop: "1.25rem" }}>
+              <a href={`mailto:${site.email}`}>{site.email}</a>
+            </p>
           </div>
-          <div
-            className="frame frame--photo span-6 start-7"
-            style={{ ["--ratio" as string]: "85%" }}
+          <form
+            className="form span-6 start-7"
+            action={`mailto:${site.email}`}
+            method="post"
+            encType="text/plain"
+            data-endpoint=""
+            data-sent="Your message is in. We reply within a day."
+            noValidate
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              className="frame__img"
-              src={assets.immersionLabFallback}
-              alt="Immersion lab exhibit space"
-              loading="lazy"
-            />
-          </div>
+            <div className="field">
+              <label htmlFor="f-name">Name</label>
+              <input
+                id="f-name"
+                name="name"
+                type="text"
+                autoComplete="name"
+                required
+                aria-describedby="f-name-err"
+              />
+              <p className="field__error" id="f-name-err" hidden>
+                Write the name we should reply to.
+              </p>
+            </div>
+            <div className="field">
+              <label htmlFor="f-email">Email</label>
+              <input
+                id="f-email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                inputMode="email"
+                required
+                aria-describedby="f-email-err"
+              />
+              <p className="field__error" id="f-email-err" hidden>
+                Write an email address with an @, like name@example.com.
+              </p>
+            </div>
+            <div className="field field--full">
+              <label htmlFor="f-note">Message</label>
+              <textarea
+                id="f-note"
+                name="message"
+                rows={8}
+                required
+                aria-describedby="f-note-err"
+                style={{ minHeight: "220px" }}
+              />
+              <p className="field__error" id="f-note-err" hidden>
+                Write what you want to ask or share.
+              </p>
+            </div>
+            <div className="btn-row">
+              <button className="btn btn--primary" type="submit">
+                Send a message
+              </button>
+            </div>
+            <p className="form__status" role="status" data-form-status="" />
+            <p className="t-small muted">We reply within a day.</p>
+          </form>
         </div>
       </section>
     </>

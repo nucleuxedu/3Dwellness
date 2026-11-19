@@ -21,9 +21,7 @@ export default function Header() {
           Skip to content
         </a>
         <a className="nav__logo" href="/#top">
-          <span className="mark mark--initial" aria-hidden="true">
-            3
-          </span>
+
           {site.name}
         </a>
         <nav className="nav__links" aria-label="Main">
