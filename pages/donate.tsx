@@ -9,7 +9,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import SectionHeading from "@/components/SectionHeading";
+import { site } from "@/lib/siteContent";
 
 const amounts = [25, 50, 100, 250];
 
@@ -20,29 +20,53 @@ export default function DonatePage() {
   return (
     <>
       <Head>
-        <title>Donate — 3D Wellness</title>
+        <title>Support — {site.name}</title>
       </Head>
 
-      <Box component="section" sx={{ pt: { xs: 6, md: 11 }, pb: { xs: 8, md: 11 } }}>
+      <Box
+        component="section"
+        sx={{ pt: { xs: 6, md: 11 }, pb: { xs: 8, md: 11 } }}
+      >
         <Container maxWidth="xl">
           <Grid container spacing={{ xs: 5, md: 10 }}>
             <Grid item xs={12} md={6}>
-              <SectionHeading
-                eyebrow="Donate"
-                title="Support open, dignified wellness."
-                description="Your gift funds clinics, youth circles, and research that keep care calm, accessible, and future-ready."
-              />
-              <Stack spacing={2} mt={1}>
+              <Typography
+                variant="labelSm"
+                sx={{ textTransform: "uppercase", mb: 2, display: "block" }}
+              >
+                Support the Hub
+              </Typography>
+              <Typography
+                variant="headlineLg"
+                component="h1"
+                sx={{
+                  mb: 3,
+                  fontSize: { xs: "36px", sm: "48px", md: "65px" },
+                  lineHeight: { xs: "42px", sm: "56px", md: "78px" },
+                }}
+              >
+                Dream. Design. Dignity.
+              </Typography>
+              <Typography variant="bodyLg" sx={{ mb: 3, maxWidth: 480 }}>
+                Your gift helps {site.name} develop the 3D Wellness Hub at St.
+                Paul Downtown — connecting the disconnected through multimedia
+                technology, healing, and community.
+              </Typography>
+              <Stack spacing={2}>
                 {[
-                  "Expand Community Care Labs in underserved neighborhoods",
-                  "Fund Mindful Futures cohorts for adults in recovery",
-                  "Advance Blue Horizon research on equitable wellness tools",
+                  "Center for Wellness Technology (Healing Hub)",
+                  "5D Wellness Immersion Lab",
+                  "Wellness Technology International School",
+                  "Community Commons & Culinary Innovation",
                 ].map((item) => (
                   <Typography key={item} variant="body1">
                     — {item}
                   </Typography>
                 ))}
               </Stack>
+              <Typography variant="body2" sx={{ mt: 3 }}>
+                Questions? {site.email} · {site.phone}
+              </Typography>
             </Grid>
 
             <Grid item xs={12} md={6}>
@@ -66,11 +90,7 @@ export default function DonatePage() {
                         variant={selected === amount ? "contained" : "outlined"}
                         color={selected === amount ? "primary" : "secondary"}
                         onClick={() => setSelected(amount)}
-                        sx={{
-                          minWidth: 0,
-                          px: 2,
-                          width: "100%",
-                        }}
+                        sx={{ minWidth: 0, px: 2, width: "100%" }}
                       >
                         ${amount}
                       </Button>
@@ -117,7 +137,7 @@ export default function DonatePage() {
                   Continue to give
                 </Button>
                 <Typography variant="body2" sx={{ mt: 2, textAlign: "center" }}>
-                  3D Wellness is a nonprofit. Contributions may be tax-deductible.
+                  {site.name} is a community-serving non-profit.
                 </Typography>
               </Box>
             </Grid>

@@ -26,8 +26,8 @@ export default function PageReveal() {
   return (
     <div className="fixed inset-0 z-[1400] pointer-events-none">
       <RevealLoader
-        text="3D WELLNESS"
-        textSize="clamp(36px, 8vw, 96px)"
+        text="3DWE"
+        textSize="clamp(48px, 10vw, 110px)"
         textColor="#F7F8F3"
         bgColors={["#1A1A14", "#333333"]}
         angle={135}

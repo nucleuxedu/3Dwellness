@@ -20,11 +20,12 @@ export default function MyApp(props: MyAppProps) {
     <CacheProvider value={emotionCache}>
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
-        <title>3D Wellness</title>
+        <title>3D Wellness Endowment: Dream. Design. Dignity</title>
         <meta
           name="description"
-          content="A spacious, editorial nonprofit advancing calm, accessible wellness for every community."
+          content="Developing a 3D Wellness Hub at St. Paul Downtown — America's first comprehensive Wellness City."
         />
+        <link rel="icon" href="/assets/images/image-32.svg" type="image/svg+xml" />
       </Head>
       <ThemeProvider theme={theme}>
         <CssBaseline />

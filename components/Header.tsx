@@ -18,11 +18,13 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
+import { site } from "@/lib/siteContent";
 
 const navLinks = [
+  { label: "Home", href: "/" },
   { label: "About", href: "/about" },
-  { label: "Programs", href: "/programs" },
-  { label: "Impact", href: "/impact" },
+  { label: "Plans", href: "/programs" },
+  { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -49,21 +51,31 @@ export default function Header() {
             justifyContent: "space-between",
           }}
         >
-          <Typography
-            component={Link}
-            href="/"
-            variant="h6"
-            sx={{
-              fontWeight: 600,
-              color: "text.primary",
-              textDecoration: "none",
-              letterSpacing: "-0.02em",
-            }}
-          >
-            3D Wellness
-          </Typography>
+          <Box>
+            <Typography
+              component={Link}
+              href="/"
+              variant="h6"
+              sx={{
+                fontWeight: 600,
+                color: "text.primary",
+                textDecoration: "none",
+                letterSpacing: "-0.02em",
+                display: "block",
+                lineHeight: 1.2,
+              }}
+            >
+              {site.name}
+            </Typography>
+            <Typography
+              variant="labelSm"
+              sx={{ display: { xs: "none", sm: "block" }, opacity: 0.7 }}
+            >
+              {site.tagline}
+            </Typography>
+          </Box>
 
-          <Stack
+          {/* <Stack
             direction="row"
             spacing={4}
             alignItems="center"
@@ -100,22 +112,25 @@ export default function Header() {
             ))}
             <Button
               component={Link}
-              href="/donate"
+              href="/contact"
               variant="contained"
               color="primary"
-              sx={{ width: { md: 180 }, px: 4 }}
+              sx={{ width: { md: 200 }, px: 3 }}
             >
-              Donate
+              Connect with us
             </Button>
           </Stack>
 
           <IconButton
             aria-label="Open menu"
             onClick={() => setOpen(true)}
-            sx={{ display: { xs: "inline-flex", md: "none" }, color: "text.primary" }}
+            sx={{
+              display: { xs: "inline-flex", md: "none" },
+              color: "text.primary",
+            }}
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
         </Toolbar>
       </Container>
 
@@ -150,13 +165,13 @@ export default function Header() {
           <ListItem sx={{ mt: 2 }}>
             <Button
               component={Link}
-              href="/donate"
+              href="/contact"
               variant="contained"
               color="primary"
               fullWidth
               onClick={() => setOpen(false)}
             >
-              Donate
+              Connect with us
             </Button>
           </ListItem>
         </List>

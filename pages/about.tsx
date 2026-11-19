@@ -9,43 +9,29 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import SectionHeading from "@/components/SectionHeading";
-
-const values = [
-  {
-    title: "Dignity first",
-    body: "Every space, program, and message is designed to honor the people we serve.",
-  },
-  {
-    title: "Evidence with empathy",
-    body: "Research guides our work, but human experience shapes how care is delivered.",
-  },
-  {
-    title: "Calm as infrastructure",
-    body: "Quiet environments are not a luxury—they are essential to lasting wellness.",
-  },
-];
+import ScrollReveal from "@/lib/animaster/ScrollReveal";
+import ParallaxMedia from "@/lib/animaster/ParallaxMedia";
+import { assets, site } from "@/lib/siteContent";
 
 export default function AboutPage() {
   return (
     <>
       <Head>
-        <title>About — 3D Wellness</title>
+        <title>About — {site.name}</title>
       </Head>
 
-      <Box component="section" sx={{ pt: { xs: 6, md: 11 }, pb: { xs: 6, md: 8 } }}>
+      <Box
+        component="section"
+        sx={{ pt: { xs: 6, md: 11 }, pb: { xs: 6, md: 8 } }}
+      >
         <Container maxWidth="xl">
           <Grid container spacing={{ xs: 5, md: 8 }} alignItems="center">
             <Grid item xs={12} md={6}>
               <Typography
                 variant="labelSm"
-                sx={{
-                  textTransform: "uppercase",
-                  mb: 2,
-                  display: "block",
-                }}
+                sx={{ textTransform: "uppercase", mb: 2, display: "block" }}
               >
-                About us
+                Who Are We?
               </Typography>
               <Typography
                 variant="headlineLg"
@@ -56,7 +42,7 @@ export default function AboutPage() {
                   lineHeight: { xs: "42px", sm: "56px", md: "78px" },
                 }}
               >
-                A nonprofit for modern wellness equity.
+                {site.fullName}
               </Typography>
               <Typography
                 variant="bodyLg"
@@ -66,29 +52,24 @@ export default function AboutPage() {
                   lineHeight: { xs: "24px", md: "30px" },
                 }}
               >
-                3D Wellness exists to make restorative care feel open,
-                aspirational, and within reach—pairing clinical rigor with an
-                editorial sense of calm.
+                A community-serving non-profit dedicated to &quot;
+                <strong>{site.missionShort}</strong>
+                .&quot; We believe in the power of multimedia technology to
+                transform lives and uplift the disadvantaged.
               </Typography>
             </Grid>
             <Grid item xs={12} md={6}>
-              <Box
-                sx={{
-                  position: "relative",
-                  width: "100%",
-                  height: { xs: 300, md: 480 },
-                  overflow: "hidden",
-                  borderRadius: "8px",
-                }}
-              >
-                <Image
-                  src="https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=1400&q=80"
-                  alt="Group wellness session in a bright open room"
-                  fill
-                  style={{ objectFit: "cover" }}
-                  sizes="(max-width: 900px) 100vw, 50vw"
-                />
-              </Box>
+              <ScrollReveal>
+                <ParallaxMedia className="relative h-[300px] w-full overflow-hidden rounded-lg md:h-[480px]">
+                  <Image
+                    src={assets.hero}
+                    alt="3D Wellness Endowment immersive training"
+                    fill
+                    style={{ objectFit: "cover" }}
+                    sizes="(max-width: 900px) 100vw, 50vw"
+                  />
+                </ParallaxMedia>
+              </ScrollReveal>
             </Grid>
           </Grid>
         </Container>
@@ -99,31 +80,49 @@ export default function AboutPage() {
         sx={{ py: { xs: 8, md: 11 }, bgcolor: "muted.main" }}
       >
         <Container maxWidth="xl">
-          <SectionHeading
-            eyebrow="Values"
-            title="What guides our work."
-            description="We stay restrained in palette and generous in space—because clarity builds trust."
-          />
-          <Grid container spacing={3}>
-            {values.map((value) => (
-              <Grid item xs={12} md={4} key={value.title}>
-                <Box
+          <Grid container spacing={{ xs: 4, md: 8 }}>
+            <Grid item xs={12} md={6}>
+              <ScrollReveal>
+                <Typography
+                  variant="headlineMd"
+                  component="h2"
                   sx={{
-                    p: 3,
-                    height: "100%",
-                    bgcolor: "background.paper",
-                    border: "1px solid",
-                    borderColor: "divider",
-                    borderRadius: "8px",
+                    mb: 3,
+                    fontSize: { xs: "28px", md: "42px" },
+                    lineHeight: { xs: "36px", md: "50px" },
                   }}
                 >
-                  <Typography variant="headlineSm" component="h3" sx={{ mb: 2 }}>
-                    {value.title}
-                  </Typography>
-                  <Typography variant="body1">{value.body}</Typography>
-                </Box>
-              </Grid>
-            ))}
+                  The Vision
+                </Typography>
+                <Typography variant="bodyLg">
+                  We envision St. Paul, Minnesota as America&apos;s first
+                  comprehensive <strong>Wellness City</strong> — where health,
+                  healing, and human flourishing are embedded into urban life.
+                </Typography>
+              </ScrollReveal>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <ScrollReveal delay={0.08}>
+                <Typography
+                  variant="headlineMd"
+                  component="h2"
+                  sx={{
+                    mb: 3,
+                    fontSize: { xs: "28px", md: "42px" },
+                    lineHeight: { xs: "36px", md: "50px" },
+                  }}
+                >
+                  Why Now?
+                </Typography>
+                <Typography variant="bodyLg">
+                  At the heart of this transformation, the 3D Wellness Endowment
+                  can serve as a <strong>catalytic hub</strong> that integrates
+                  immersive experiences, holistic care, and technology-enabled
+                  learning to drive equitable economic growth, downtown
+                  revitalization, and community resilience.
+                </Typography>
+              </ScrollReveal>
+            </Grid>
           </Grid>
         </Container>
       </Box>
@@ -139,19 +138,14 @@ export default function AboutPage() {
               lineHeight: { xs: "36px", md: "50px" },
             }}
           >
-            From clinics to communities.
+            Dream. Design. Dignity.
           </Typography>
-          <Typography variant="bodyLg" sx={{ mb: 3 }}>
-            Founded by clinicians, designers, and public-health advocates, 3D
-            Wellness reimagines how nonprofit care can look and feel. Our
-            programs span mental health, preventive access, and applied research—
-            always with white space, soft contrast, and a single lime accent to
-            mark the next step forward.
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 5 }}>
-            Today we partner with clinics, universities, and civic groups across
-            dozens of cities. Tomorrow we keep expanding the quiet infrastructure
-            that lets people heal without hurry.
+          <Typography variant="bodyLg" sx={{ mb: 5 }}>
+            The 3D Wellness Endowment advances human wellbeing by{" "}
+            <strong>dreaming</strong> boldly, <strong>designing</strong>{" "}
+            innovative wellness technologies, and expanding equitable access to
+            transformative health and wealth experiences — so that every
+            community can thrive with <strong>dignity</strong>.
           </Typography>
           <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
             <Button
@@ -161,7 +155,7 @@ export default function AboutPage() {
               color="primary"
               sx={{ width: { xs: "100%", sm: 276 } }}
             >
-              Explore programs
+              Explore our plans
             </Button>
             <Button
               component={Link}
@@ -170,7 +164,7 @@ export default function AboutPage() {
               color="secondary"
               sx={{ width: { xs: "100%", sm: 276 } }}
             >
-              Partner with us
+              Connect with us
             </Button>
           </Stack>
         </Container>

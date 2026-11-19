@@ -8,22 +8,23 @@ import {
 } from "@mui/material";
 import { Link000, Link003 } from "@/components/ui/skiper-ui/skiper40";
 import { LineHoverLink } from "@/components/ui/line-hover-link";
+import { site } from "@/lib/siteContent";
 
 const footerLinks = [
   {
     title: "Explore",
     links: [
+      { label: "Home", href: "/" },
       { label: "About", href: "/about" },
-      { label: "Programs", href: "/programs" },
-      { label: "Impact", href: "/impact" },
+      { label: "Our Plans", href: "/programs" },
+      { label: "Blog", href: "/blog" },
     ],
   },
   {
     title: "Get Involved",
     links: [
-      { label: "Donate", href: "/donate" },
       { label: "Contact", href: "/contact" },
-      { label: "Volunteer", href: "/contact" },
+      { label: "Support the Hub", href: "/donate" },
     ],
   },
 ];
@@ -42,12 +43,16 @@ export default function Footer() {
       <Container maxWidth="xl">
         <Grid container spacing={{ xs: 4, md: 8 }}>
           <Grid item xs={12} md={5}>
-            <Typography variant="headlineSm" component="p" sx={{ mb: 2 }}>
-              3D Wellness
+            <Typography variant="headlineSm" component="p" sx={{ mb: 1 }}>
+              {site.name}
+            </Typography>
+            <Typography variant="labelMd" sx={{ mb: 2, display: "block" }}>
+              {site.tagline}
             </Typography>
             <Typography variant="bodyLg" sx={{ maxWidth: 420, mb: 3 }}>
-              Advancing calm, accessible wellness through research-backed care,
-              community programs, and a future-minded approach to health.
+              A community-serving non-profit dedicated to &quot;
+              {site.missionShort}&quot; — building a 3D Wellness Hub in downtown
+              St. Paul.
             </Typography>
             <Box
               sx={{
@@ -58,16 +63,16 @@ export default function Footer() {
               }}
             >
               <Link003
-                href="mailto:hello@3dwellness.org"
+                href={`mailto:${site.email}`}
                 className="font-poppins text-[16px] text-[#333333]"
               >
-                hello@3dwellness.org
+                {site.email}
               </Link003>
             </Box>
           </Grid>
 
-          {footerLinks.map((group) => (
-            <Grid item xs={6} md={3} key={group.title}>
+          {/* {footerLinks.map((group) => (
+            <Grid item xs={6} md={2} key={group.title}>
               <Typography variant="labelSm" sx={{ mb: 2.5, display: "block" }}>
                 {group.title}
               </Typography>
@@ -84,27 +89,28 @@ export default function Footer() {
                 ))}
               </Stack>
             </Grid>
-          ))}
+          ))} */}
 
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={3}>
             <Typography variant="labelSm" sx={{ mb: 2.5, display: "block" }}>
               Connect
             </Typography>
             <Stack spacing={1.5}>
+              <Typography variant="body1">{site.address}</Typography>
               <Link000
-                href="mailto:hello@3dwellness.org"
+                href={`mailto:${site.email}`}
                 className="font-poppins text-[16px] font-light text-[#333333]"
               >
-                hello@3dwellness.org
+                {site.email}
               </Link000>
-              <Typography variant="body1">San Francisco, CA</Typography>
+              <LineHoverLink
+                href={site.phoneHref}
+                variant="slide"
+                className="font-poppins text-[16px] font-light text-[#333333]"
+              >
+                {site.phone}
+              </LineHoverLink>
             </Stack>
-            <Typography
-              variant="labelSm"
-              sx={{ mt: 3, display: "block", opacity: 0.55 }}
-            >
-              Motion by Skiper UI · Vengeance UI · Animaster patterns
-            </Typography>
           </Grid>
         </Grid>
 
@@ -115,12 +121,8 @@ export default function Footer() {
           justifyContent="space-between"
           spacing={2}
         >
-          <Typography variant="body2">
-            © {new Date().getFullYear()} 3D Wellness. All rights reserved.
-          </Typography>
-          <Typography variant="body2">
-            A nonprofit for modern wellness equity.
-          </Typography>
+          <Typography variant="body2">{site.copyright}</Typography>
+          <Typography variant="body2">{site.fullName}</Typography>
         </Stack>
       </Container>
     </Box>
