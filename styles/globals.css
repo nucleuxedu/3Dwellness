@@ -1,3 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #333333;
+  --primary: #b5c94d;
+  --primary-foreground: #1a1a14;
+  --muted: #f7f8f3;
+  --border: #e5e7eb;
+  --vng-transition-speed-slow: 300ms;
+}
+
 html,
 body {
   padding: 0;
@@ -12,4 +26,30 @@ body {
 img {
   max-width: 100%;
   display: block;
+}
+
+/* Animaster-style motion helpers */
+.am-reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  will-change: transform, opacity;
+}
+
+.am-reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.am-parallax-media {
+  will-change: transform;
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .am-reveal,
+  .am-parallax-media {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }

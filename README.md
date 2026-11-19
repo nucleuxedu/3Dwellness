@@ -7,8 +7,15 @@ A spacious, editorial nonprofit website built with **Next.js Pages Router** and 
 - Next.js 14 (Pages Router)
 - React 18
 - MUI 6 + Emotion
+- Tailwind CSS (for Skiper / Vengeance components; preflight disabled so MUI stays intact)
 - TypeScript
 - Poppins (Google Fonts)
+
+## Motion libraries
+
+- **Vengeance UI** — `reveal-loader`, `stagger-text`, `stats-counter`, `line-hover-link`, `border-beam`, `flip-fade-text` via shadcn registry
+- **Skiper UI** — animated links (`skiper40`) and `useLoop` (`skiper62`) via shadcn registry
+- **Animaster-style layer** — GSAP scroll reveals, parallax media, and magnetic hover in `lib/animaster/` (Animaster Lib itself is a paid Drive pack, not an npm package; these patterns mirror its GSAP scroll/hover language)
 
 ## Getting started
 

@@ -1,4 +1,3 @@
-import Link from "next/link";
 import {
   Box,
   Container,
@@ -7,6 +6,8 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { Link000, Link003 } from "@/components/ui/skiper-ui/skiper40";
+import { LineHoverLink } from "@/components/ui/line-hover-link";
 
 const footerLinks = [
   {
@@ -44,10 +45,25 @@ export default function Footer() {
             <Typography variant="headlineSm" component="p" sx={{ mb: 2 }}>
               3D Wellness
             </Typography>
-            <Typography variant="bodyLg" sx={{ maxWidth: 420 }}>
+            <Typography variant="bodyLg" sx={{ maxWidth: 420, mb: 3 }}>
               Advancing calm, accessible wellness through research-backed care,
               community programs, and a future-minded approach to health.
             </Typography>
+            <Box
+              sx={{
+                fontFamily: "Poppins, sans-serif",
+                fontSize: 16,
+                fontWeight: 400,
+                color: "text.primary",
+              }}
+            >
+              <Link003
+                href="mailto:hello@3dwellness.org"
+                className="font-poppins text-[16px] text-[#333333]"
+              >
+                hello@3dwellness.org
+              </Link003>
+            </Box>
           </Grid>
 
           {footerLinks.map((group) => (
@@ -57,17 +73,14 @@ export default function Footer() {
               </Typography>
               <Stack spacing={1.5}>
                 {group.links.map((link) => (
-                  <Typography
+                  <LineHoverLink
                     key={link.label}
-                    component={Link}
                     href={link.href}
-                    variant="body1"
-                    sx={{
-                      "&:hover": { color: "primary.dark" },
-                    }}
+                    variant="slide"
+                    className="font-poppins text-[16px] font-light text-[#333333]"
                   >
                     {link.label}
-                  </Typography>
+                  </LineHoverLink>
                 ))}
               </Stack>
             </Grid>
@@ -77,10 +90,21 @@ export default function Footer() {
             <Typography variant="labelSm" sx={{ mb: 2.5, display: "block" }}>
               Connect
             </Typography>
-            <Typography variant="body1" sx={{ mb: 1 }}>
-              hello@3dwellness.org
+            <Stack spacing={1.5}>
+              <Link000
+                href="mailto:hello@3dwellness.org"
+                className="font-poppins text-[16px] font-light text-[#333333]"
+              >
+                hello@3dwellness.org
+              </Link000>
+              <Typography variant="body1">San Francisco, CA</Typography>
+            </Stack>
+            <Typography
+              variant="labelSm"
+              sx={{ mt: 3, display: "block", opacity: 0.55 }}
+            >
+              Motion by Skiper UI · Vengeance UI · Animaster patterns
             </Typography>
-            <Typography variant="body1">San Francisco, CA</Typography>
           </Grid>
         </Grid>
 

@@ -1,18 +1,26 @@
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import {
   Box,
   Button,
-  Card,
-  CardContent,
-  Chip,
   Container,
   Grid,
   Stack,
   Typography,
 } from "@mui/material";
 import SectionHeading from "@/components/SectionHeading";
+import ProgramCard from "@/components/ProgramCard";
+import HoverCta from "@/components/HoverCta";
+import ScrollReveal from "@/lib/animaster/ScrollReveal";
+import ParallaxMedia from "@/lib/animaster/ParallaxMedia";
+import TextAnimation from "@/components/ui/staggerText";
+import StatsCounter from "@/components/ui/stats-counter";
+
+const FlipFadeText = dynamic(() => import("@/components/ui/flip-fade-text"), {
+  ssr: false,
+});
 
 const programs = [
   {
@@ -36,9 +44,9 @@ const programs = [
 ];
 
 const impactStats = [
-  { value: "48K", label: "People reached yearly" },
-  { value: "120", label: "Partner clinics" },
-  { value: "36", label: "Cities served" },
+  { value: 48000, label: "People reached yearly", suffix: "+", decimals: 0 },
+  { value: 120, label: "Partner clinics", suffix: "", decimals: 0 },
+  { value: 36, label: "Cities served", suffix: "", decimals: 0 },
 ];
 
 export default function HomePage() {
@@ -60,6 +68,22 @@ export default function HomePage() {
           <Grid container spacing={{ xs: 5, md: 8 }} alignItems="center">
             <Grid item xs={12} md={6}>
               <Typography
+                variant="labelSm"
+                sx={{
+                  textTransform: "uppercase",
+                  mb: 2,
+                  display: "block",
+                  color: "text.secondary",
+                }}
+              >
+                <FlipFadeText
+                  words={["CALM CARE", "FUTURE READY", "OPEN ACCESS", "HUMAN FIRST"]}
+                  interval={2800}
+                  className="!min-h-0 justify-start"
+                  textClassName="font-poppins text-[12px] font-normal tracking-[0.08em] text-[#333333]"
+                />
+              </Typography>
+              <Typography
                 variant="headlineDisplay"
                 component="h1"
                 sx={{
@@ -74,30 +98,26 @@ export default function HomePage() {
                   maxWidth: 560,
                 }}
               >
-                Wellness with room to breathe.
+                <TextAnimation delay={0.1}>
+                  Wellness with room to breathe.
+                </TextAnimation>
               </Typography>
-              <Typography
-                variant="bodyLg"
-                sx={{
-                  mb: 5,
-                  maxWidth: 480,
-                  fontSize: { xs: "16px", md: "20px" },
-                  lineHeight: { xs: "24px", md: "30px" },
-                }}
-              >
-                3D Wellness is a nonprofit building calm, dignified pathways to
-                health—where research, community, and care meet with clarity.
-              </Typography>
-              <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
-                <Button
-                  component={Link}
-                  href="/programs"
-                  variant="contained"
-                  color="primary"
-                  sx={{ width: { xs: "100%", sm: 276 } }}
+              <ScrollReveal delay={0.15}>
+                <Typography
+                  variant="bodyLg"
+                  sx={{
+                    mb: 5,
+                    maxWidth: 480,
+                    fontSize: { xs: "16px", md: "20px" },
+                    lineHeight: { xs: "24px", md: "30px" },
+                  }}
                 >
-                  Explore programs
-                </Button>
+                  3D Wellness is a nonprofit building calm, dignified pathways to
+                  health—where research, community, and care meet with clarity.
+                </Typography>
+              </ScrollReveal>
+              <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
+                <HoverCta href="/programs">Explore programs</HoverCta>
                 <Button
                   component={Link}
                   href="/about"
@@ -111,24 +131,21 @@ export default function HomePage() {
             </Grid>
 
             <Grid item xs={12} md={6}>
-              <Box
-                sx={{
-                  position: "relative",
-                  width: "100%",
-                  height: { xs: 320, sm: 420, md: 560 },
-                  overflow: "hidden",
-                  borderRadius: "8px",
-                }}
-              >
-                <Image
-                  src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=1600&q=80"
-                  alt="Person meditating in a calm blue-toned space"
-                  fill
-                  priority
-                  style={{ objectFit: "cover" }}
-                  sizes="(max-width: 900px) 100vw, 50vw"
-                />
-              </Box>
+              <ScrollReveal delay={0.2} y={24}>
+                <ParallaxMedia
+                  className="relative h-[320px] w-full overflow-hidden rounded-lg sm:h-[420px] md:h-[560px]"
+                  speed={0.12}
+                >
+                  <Image
+                    src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=1600&q=80"
+                    alt="Person meditating in a calm blue-toned space"
+                    fill
+                    priority
+                    style={{ objectFit: "cover" }}
+                    sizes="(max-width: 900px) 100vw, 50vw"
+                  />
+                </ParallaxMedia>
+              </ScrollReveal>
             </Grid>
           </Grid>
         </Container>
@@ -145,30 +162,29 @@ export default function HomePage() {
         <Container maxWidth="xl">
           <Grid container spacing={{ xs: 4, md: 10 }} alignItems="center">
             <Grid item xs={12} md={5}>
-              <SectionHeading
-                eyebrow="Our Approach"
-                title="Editorial calm. Measurable care."
-                description="We design wellness systems that feel open and human—never crowded, never clinical for the sake of it."
-              />
+              <ScrollReveal>
+                <SectionHeading
+                  eyebrow="Our Approach"
+                  title="Editorial calm. Measurable care."
+                  description="We design wellness systems that feel open and human—never crowded, never clinical for the sake of it."
+                />
+              </ScrollReveal>
             </Grid>
             <Grid item xs={12} md={7}>
-              <Box
-                sx={{
-                  position: "relative",
-                  width: "100%",
-                  height: { xs: 280, md: 400 },
-                  overflow: "hidden",
-                  borderRadius: "8px",
-                }}
-              >
-                <Image
-                  src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1400&q=80"
-                  alt="Healthcare professional in a bright clinical setting"
-                  fill
-                  style={{ objectFit: "cover" }}
-                  sizes="(max-width: 900px) 100vw, 55vw"
-                />
-              </Box>
+              <ScrollReveal delay={0.1}>
+                <ParallaxMedia
+                  className="relative h-[280px] w-full overflow-hidden rounded-lg md:h-[400px]"
+                  speed={0.1}
+                >
+                  <Image
+                    src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1400&q=80"
+                    alt="Healthcare professional in a bright clinical setting"
+                    fill
+                    style={{ objectFit: "cover" }}
+                    sizes="(max-width: 900px) 100vw, 55vw"
+                  />
+                </ParallaxMedia>
+              </ScrollReveal>
             </Grid>
           </Grid>
         </Container>
@@ -177,31 +193,18 @@ export default function HomePage() {
       {/* Programs */}
       <Box component="section" sx={{ py: { xs: 8, md: 11 } }}>
         <Container maxWidth="xl">
-          <SectionHeading
-            eyebrow="Programs"
-            title="Pathways built for dignity."
-            description="Each initiative pairs spacious design with practical support—so care feels aspirational and attainable."
-          />
+          <ScrollReveal>
+            <SectionHeading
+              eyebrow="Programs"
+              title="Pathways built for dignity."
+              description="Each initiative pairs spacious design with practical support—so care feels aspirational and attainable."
+            />
+          </ScrollReveal>
 
           <Grid container spacing={3}>
-            {programs.map((program) => (
+            {programs.map((program, index) => (
               <Grid item xs={12} md={4} key={program.title}>
-                <Card
-                  sx={{
-                    height: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    p: 3,
-                  }}
-                >
-                  <CardContent sx={{ p: 0, "&:last-child": { pb: 0 } }}>
-                    <Chip label={program.tag} sx={{ mb: 3 }} />
-                    <Typography variant="headlineSm" component="h3" sx={{ mb: 2 }}>
-                      {program.title}
-                    </Typography>
-                    <Typography variant="body1">{program.description}</Typography>
-                  </CardContent>
-                </Card>
+                <ProgramCard {...program} delay={index * 0.08} />
               </Grid>
             ))}
           </Grid>
@@ -226,30 +229,29 @@ export default function HomePage() {
         <Container maxWidth="xl">
           <Grid container spacing={{ xs: 5, md: 8 }} alignItems="center">
             <Grid item xs={12} md={6}>
-              <Box
-                sx={{
-                  position: "relative",
-                  width: "100%",
-                  height: { xs: 300, md: 480 },
-                  overflow: "hidden",
-                  borderRadius: "8px",
-                }}
-              >
-                <Image
-                  src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=1400&q=80"
-                  alt="Yoga practice in soft natural light"
-                  fill
-                  style={{ objectFit: "cover" }}
-                  sizes="(max-width: 900px) 100vw, 50vw"
-                />
-              </Box>
+              <ScrollReveal>
+                <ParallaxMedia
+                  className="relative h-[300px] w-full overflow-hidden rounded-lg md:h-[480px]"
+                  speed={0.12}
+                >
+                  <Image
+                    src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=1400&q=80"
+                    alt="Yoga practice in soft natural light"
+                    fill
+                    style={{ objectFit: "cover" }}
+                    sizes="(max-width: 900px) 100vw, 50vw"
+                  />
+                </ParallaxMedia>
+              </ScrollReveal>
             </Grid>
             <Grid item xs={12} md={6}>
-              <SectionHeading
-                eyebrow="Impact"
-                title="Quiet progress, lasting reach."
-                description="Our partners expand access without sacrificing the calm that makes healing possible."
-              />
+              <ScrollReveal>
+                <SectionHeading
+                  eyebrow="Impact"
+                  title="Quiet progress, lasting reach."
+                  description="Our partners expand access without sacrificing the calm that makes healing possible."
+                />
+              </ScrollReveal>
               <Stack
                 direction={{ xs: "column", sm: "row" }}
                 spacing={{ xs: 3, sm: 5 }}
@@ -264,9 +266,15 @@ export default function HomePage() {
                         fontSize: { xs: "32px", md: "42px" },
                         lineHeight: { xs: "40px", md: "50px" },
                         color: "primary.dark",
+                        fontFamily: "Poppins, sans-serif",
                       }}
                     >
-                      {stat.value}
+                      <StatsCounter
+                        value={stat.value}
+                        suffix={stat.suffix}
+                        decimals={stat.decimals}
+                        className="font-poppins text-[inherit] font-semibold text-[#1A1A14]"
+                      />
                     </Typography>
                     <Typography variant="labelMd">{stat.label}</Typography>
                   </Box>
@@ -309,30 +317,26 @@ export default function HomePage() {
                 lineHeight: { xs: "42px", sm: "56px", md: "78px" },
               }}
             >
-              Support care that feels open.
+              <TextAnimation delay={0.05}>
+                Support care that feels open.
+              </TextAnimation>
             </Typography>
-            <Typography
-              variant="bodyLg"
-              sx={{
-                color: "rgba(255,255,255,0.8)",
-                mb: 5,
-                maxWidth: 520,
-                mx: "auto",
-                fontSize: { xs: "16px", md: "20px" },
-              }}
-            >
-              Your gift funds clinics, research, and community programs rooted
-              in dignity and design.
-            </Typography>
-            <Button
-              component={Link}
-              href="/donate"
-              variant="contained"
-              color="primary"
-              sx={{ width: { xs: "100%", sm: 276 } }}
-            >
-              Donate today
-            </Button>
+            <ScrollReveal>
+              <Typography
+                variant="bodyLg"
+                sx={{
+                  color: "rgba(255,255,255,0.8)",
+                  mb: 5,
+                  maxWidth: 520,
+                  mx: "auto",
+                  fontSize: { xs: "16px", md: "20px" },
+                }}
+              >
+                Your gift funds clinics, research, and community programs rooted
+                in dignity and design.
+              </Typography>
+            </ScrollReveal>
+            <HoverCta href="/donate">Donate today</HoverCta>
           </Box>
         </Container>
       </Box>

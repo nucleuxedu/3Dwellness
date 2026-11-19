@@ -1,21 +1,24 @@
 import Head from "next/head";
 import Image from "next/image";
-import Link from "next/link";
 import {
   Box,
-  Button,
   Container,
   Grid,
   Stack,
   Typography,
 } from "@mui/material";
 import SectionHeading from "@/components/SectionHeading";
+import ScrollReveal from "@/lib/animaster/ScrollReveal";
+import ParallaxMedia from "@/lib/animaster/ParallaxMedia";
+import StatsCounter from "@/components/ui/stats-counter";
+import TextAnimation from "@/components/ui/staggerText";
+import HoverCta from "@/components/HoverCta";
 
 const stats = [
-  { value: "48,000+", label: "Individuals reached each year" },
-  { value: "120", label: "Clinic and school partners" },
-  { value: "92%", label: "Participants reporting improved calm" },
-  { value: "36", label: "Cities with active programs" },
+  { value: 48000, label: "Individuals reached each year", suffix: "+" },
+  { value: 120, label: "Clinic and school partners", suffix: "" },
+  { value: 92, label: "Participants reporting improved calm", suffix: "%" },
+  { value: 36, label: "Cities with active programs", suffix: "" },
 ];
 
 const stories = [
@@ -44,30 +47,26 @@ export default function ImpactPage() {
         <Container maxWidth="xl">
           <Grid container spacing={{ xs: 5, md: 8 }} alignItems="center">
             <Grid item xs={12} md={6}>
-              <SectionHeading
-                eyebrow="Impact"
-                title="Quiet progress you can measure."
-                description="We track outcomes with the same restraint we bring to design—clear numbers, honest stories, no noise."
-              />
+              <ScrollReveal>
+                <SectionHeading
+                  eyebrow="Impact"
+                  title="Quiet progress you can measure."
+                  description="We track outcomes with the same restraint we bring to design—clear numbers, honest stories, no noise."
+                />
+              </ScrollReveal>
             </Grid>
             <Grid item xs={12} md={6}>
-              <Box
-                sx={{
-                  position: "relative",
-                  width: "100%",
-                  height: { xs: 280, md: 420 },
-                  overflow: "hidden",
-                  borderRadius: "8px",
-                }}
-              >
-                <Image
-                  src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=1400&q=80"
-                  alt="People stretching together outdoors"
-                  fill
-                  style={{ objectFit: "cover" }}
-                  sizes="(max-width: 900px) 100vw, 50vw"
-                />
-              </Box>
+              <ScrollReveal delay={0.1}>
+                <ParallaxMedia className="relative h-[280px] w-full overflow-hidden rounded-lg md:h-[420px]">
+                  <Image
+                    src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=1400&q=80"
+                    alt="People stretching together outdoors"
+                    fill
+                    style={{ objectFit: "cover" }}
+                    sizes="(max-width: 900px) 100vw, 50vw"
+                  />
+                </ParallaxMedia>
+              </ScrollReveal>
             </Grid>
           </Grid>
         </Container>
@@ -91,7 +90,11 @@ export default function ImpactPage() {
                     color: "primary.dark",
                   }}
                 >
-                  {stat.value}
+                  <StatsCounter
+                    value={stat.value}
+                    suffix={stat.suffix}
+                    className="font-poppins text-[inherit] font-semibold text-[#1A1A14]"
+                  />
                 </Typography>
                 <Typography variant="labelMd">{stat.label}</Typography>
               </Grid>
@@ -102,39 +105,34 @@ export default function ImpactPage() {
 
       <Box component="section" sx={{ py: { xs: 8, md: 11 } }}>
         <Container maxWidth="xl">
-          <SectionHeading
-            eyebrow="Stories"
-            title="Where calm becomes change."
-          />
+          <ScrollReveal>
+            <SectionHeading
+              eyebrow="Stories"
+              title="Where calm becomes change."
+            />
+          </ScrollReveal>
           <Stack spacing={4}>
-            {stories.map((story) => (
-              <Box
-                key={story.title}
-                sx={{
-                  pb: 4,
-                  borderBottom: "1px solid",
-                  borderColor: "divider",
-                }}
-              >
-                <Typography variant="headlineSm" component="h3" sx={{ mb: 1.5 }}>
-                  {story.title}
-                </Typography>
-                <Typography variant="bodyLg" sx={{ maxWidth: 720 }}>
-                  {story.body}
-                </Typography>
-              </Box>
+            {stories.map((story, i) => (
+              <ScrollReveal key={story.title} delay={i * 0.05}>
+                <Box
+                  sx={{
+                    pb: 4,
+                    borderBottom: "1px solid",
+                    borderColor: "divider",
+                  }}
+                >
+                  <Typography variant="headlineSm" component="h3" sx={{ mb: 1.5 }}>
+                    <TextAnimation>{story.title}</TextAnimation>
+                  </Typography>
+                  <Typography variant="bodyLg" sx={{ maxWidth: 720 }}>
+                    {story.body}
+                  </Typography>
+                </Box>
+              </ScrollReveal>
             ))}
           </Stack>
           <Box mt={6}>
-            <Button
-              component={Link}
-              href="/donate"
-              variant="contained"
-              color="primary"
-              sx={{ width: { xs: "100%", sm: 276 } }}
-            >
-              Fuel this impact
-            </Button>
+            <HoverCta href="/donate">Fuel this impact</HoverCta>
           </Box>
         </Container>
       </Box>
