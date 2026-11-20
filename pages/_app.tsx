@@ -1,14 +1,17 @@
 import { AppProps } from "next/app";
-import Script from "next/script";
-import "@/styles/globals.css";
+import { AppCacheProvider } from "@mui/material-nextjs/v14-pagesRouter";
+import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import theme from "@/theme/theme";
 
-export default function MyApp({ Component, pageProps }: AppProps) {
+export default function MyApp(props: AppProps) {
+  const { Component, pageProps } = props;
   return (
-    <>
-      <Script id="kit" strategy="afterInteractive">
-        {`import("/assets/system.js");import("/assets/motion/motion.js");import("/assets/layout/layout.js");`}
-      </Script>
-      <Component {...pageProps} />
-    </>
+    <AppCacheProvider {...props}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Component {...pageProps} />
+      </ThemeProvider>
+    </AppCacheProvider>
   );
 }
