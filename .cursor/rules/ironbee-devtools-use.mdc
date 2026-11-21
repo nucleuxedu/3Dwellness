@@ -1,8 +1,6 @@
 ---
-description: "Enforce IronBee DevTools for driving and verifying running applications. Each enabled platform (browser, node, backend) contributes its own section. Verify changes against the running app before finishing; use execute for multi-step flows."
 alwaysApply: true
 ---
-
 # Use IronBee DevTools to drive and verify the running application
 
 **IronBee DevTools** is the verification and intelligence layer for this workspace. It is exposed as up

@@ -9,15 +9,15 @@ export default function MyDocument(props: DocumentProps & DocumentHeadTagsProps)
         <meta name="theme-color" content="#ffffff" />
         <meta
           name="description"
-          content="A planned wellness center in downtown St. Paul, with four rooms for care, training and meals."
+          content="Developing a 3D Wellness Hub at St. Paul Downtown — America's first comprehensive Wellness City."
         />
         <meta property="og:type" content="website" />
-        <meta property="og:title" content="3D Wellness Endowment: a wellness center for St. Paul" />
+        <meta property="og:title" content="3D Wellness Endowment: Dream. Design. Dignity" />
         <meta
           property="og:description"
-          content="A planned wellness center in downtown St. Paul, with four rooms for care, training and meals."
+          content="Developing a 3D Wellness Hub at St. Paul Downtown — America's first comprehensive Wellness City."
         />
-        <meta property="og:image" content="/share.jpg" />
+        <meta property="og:image" content="/images/image-1.jpg" />
         <meta name="twitter:card" content="summary_large_image" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
