@@ -82,9 +82,6 @@ export default function CentersLoginPage() {
             }}
           >
             <Stack spacing={0.5} sx={{ mb: 3 }}>
-              <Typography variant="overline" sx={{ color: "text.secondary", letterSpacing: "0.08em" }}>
-                Centers
-              </Typography>
               <Typography variant="h1" component="h1" sx={{ fontSize: { xs: 32, md: 40 } }}>
                 Sign in
               </Typography>

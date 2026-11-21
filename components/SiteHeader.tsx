@@ -18,7 +18,7 @@ const nav = [
   { href: "#vision", label: "Vision" },
   { href: "#plans", label: "Our plans" },
   { href: "#connect", label: "Connect" },
-  { href: "/centers", label: "Centers" },
+  { href: "/center", label: "Center for wellness technology" },
 ];
 
 export default function SiteHeader() {
