@@ -2,8 +2,6 @@ import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
@@ -13,6 +11,7 @@ import { fmtDate } from "@/lib/portal/dates";
 import { useApi } from "@/lib/portal/useApi";
 import Loading from "./Loading";
 import PageTitle from "./PageTitle";
+import { btnMotionSx, listPanelSx, panelSx, rowDividerSx } from "./ui";
 import type { PortalShared } from "./types";
 
 type Client = {
@@ -46,36 +45,29 @@ export default function Clients({ version, bump, notify }: PortalShared) {
     <Box
       sx={{
         display: "grid",
-        gap: 4,
-        gridTemplateColumns: { lg: "3fr 2fr" },
+        gap: { xs: 4, lg: 6 },
+        gridTemplateColumns: { lg: "1.3fr 0.9fr" },
+        alignItems: "start",
       }}
     >
       <Box>
         <PageTitle title="Clients">
           A client needs a signed waiver before using the sauna, cold plunge, or fitness room.
         </PageTitle>
-        <List
-          dense
-          sx={{
-            bgcolor: "background.default",
-            border: "1px solid",
-            borderColor: "divider",
-            borderRadius: 2,
-            py: 0,
-          }}
-        >
+        <Box component="ul" sx={listPanelSx}>
           {clients.map((c: Client) => (
-            <ListItem
+            <Box
+              component="li"
               key={c.id}
               sx={{
+                ...rowDividerSx,
+                display: "flex",
                 flexWrap: "wrap",
                 justifyContent: "space-between",
-                gap: 1,
-                py: 1.5,
-                px: 2,
-                borderBottom: "1px solid",
-                borderColor: "divider",
-                "&:last-child": { borderBottom: 0 },
+                alignItems: "center",
+                gap: 1.25,
+                py: 1.75,
+                px: 2.25,
               }}
             >
               <Box>
@@ -84,38 +76,37 @@ export default function Clients({ version, bump, notify }: PortalShared) {
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   {c.email}
-                  {c.phone ? `, ${c.phone}` : ""}
+                  {c.phone ? ` · ${c.phone}` : ""}
                 </Typography>
               </Box>
               {c.waiver_signed_at ? (
                 <Chip
                   size="small"
                   label={`Waiver signed ${fmtDate(c.waiver_signed_at)}`}
-                  sx={{ bgcolor: "secondary.main", color: "secondary.contrastText" }}
+                  sx={{ borderRadius: 0, bgcolor: "secondary.main", color: "secondary.contrastText" }}
                 />
               ) : (
-                <Chip size="small" color="warning" label="Waiver needed" />
+                <Chip size="small" color="warning" label="Waiver needed" sx={{ borderRadius: 0 }} />
               )}
-            </ListItem>
+            </Box>
           ))}
-        </List>
+        </Box>
       </Box>
 
       <Box>
-        <Typography variant="h3" component="h2" color="primary">
-          Add a client
-        </Typography>
-        <Stack
-          gap={2}
+        <Typography
+          component="h2"
           sx={{
-            mt: 1.5,
-            border: "1px solid",
-            borderColor: "divider",
-            borderRadius: 2,
-            bgcolor: "background.default",
-            p: 2.5,
+            fontSize: "0.8rem",
+            fontWeight: 600,
+            letterSpacing: "0.12em",
+            textTransform: "uppercase",
+            color: "text.secondary",
           }}
         >
+          Add a client
+        </Typography>
+        <Stack gap={2} sx={{ ...panelSx, mt: 1.5, p: 2.75 }}>
           <TextField
             id="client-name"
             label="Full name"
@@ -143,11 +134,11 @@ export default function Clients({ version, bump, notify }: PortalShared) {
             onChange={(e) => setDraft({ ...draft, phone: e.target.value })}
           />
           {error ? (
-            <Alert severity="error" role="alert">
+            <Alert severity="error" role="alert" sx={{ borderRadius: 0 }}>
               {error}
             </Alert>
           ) : null}
-          <Button variant="contained" onClick={save} sx={{ alignSelf: "flex-start" }}>
+          <Button variant="contained" onClick={save} sx={{ ...btnMotionSx, alignSelf: "flex-start" }}>
             Add client
           </Button>
         </Stack>

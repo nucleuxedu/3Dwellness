@@ -1,7 +1,5 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
@@ -10,6 +8,7 @@ import { CANCEL_REFUND_HOURS, fmtDay, fmtTime, hrs, hourWord } from "@/lib/porta
 import { useApi } from "@/lib/portal/useApi";
 import Loading from "./Loading";
 import PageTitle from "./PageTitle";
+import { btnMotionSx, listPanelSx, rowDividerSx } from "./ui";
 import type { PortalShared } from "./types";
 
 type Booking = {
@@ -21,6 +20,23 @@ type Booking = {
   client_name?: string | null;
   minutes: number;
 };
+
+function SectionLabel({ children }: { children: string }) {
+  return (
+    <Typography
+      component="h2"
+      sx={{
+        fontSize: "0.8rem",
+        fontWeight: 600,
+        letterSpacing: "0.12em",
+        textTransform: "uppercase",
+        color: "text.secondary",
+      }}
+    >
+      {children}
+    </Typography>
+  );
+}
 
 export default function Bookings({ version, bump, notify, go }: PortalShared) {
   const bookings = useApi(api.getBookings, [version]);
@@ -46,66 +62,47 @@ export default function Bookings({ version, bump, notify, go }: PortalShared) {
   const Row = ({ b, canCancel }: { b: Booking; canCancel: boolean }) => {
     const refundable = (new Date(b.start).getTime() - now.getTime()) / 3600000 >= CANCEL_REFUND_HOURS;
     return (
-      <ListItem
-        alignItems="flex-start"
-        sx={{
-          flexDirection: "column",
-          alignItems: "stretch",
-          py: 1.5,
-          px: 2,
-          borderBottom: "1px solid",
-          borderColor: "divider",
-          "&:last-child": { borderBottom: 0 },
-        }}
-      >
+      <Box component="li" sx={{ ...rowDividerSx, px: 2.25, py: 1.75 }}>
         <Stack direction="row" flexWrap="wrap" alignItems="center" justifyContent="space-between" gap={1.5}>
           <Box>
             <Typography variant="body2" fontWeight={500}>
-              {fmtDay(b.start)},{" "}
-              <Box component="span" sx={{ fontVariantNumeric: "tabular-nums" }}>
-                {fmtTime(b.start)} to {fmtTime(b.end)}
+              {fmtDay(b.start)}
+              <Box component="span" sx={{ fontVariantNumeric: "tabular-nums", color: "text.secondary", fontWeight: 400 }}>
+                {" · "}
+                {fmtTime(b.start)}–{fmtTime(b.end)}
               </Box>
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" color="text.secondary" sx={{ mt: 0.25 }}>
               {b.room_name}
               {b.client_name ? ` with ${b.client_name}` : ""}
-              {!canCancel ? `, ${b.status === "cancelled" ? "cancelled" : "completed"}` : ""}
+              {!canCancel ? ` · ${b.status === "cancelled" ? "cancelled" : "completed"}` : ""}
             </Typography>
           </Box>
           {canCancel && confirmId !== b.id ? (
-            <Button variant="outlined" size="small" onClick={() => setConfirmId(b.id)}>
+            <Button variant="outlined" size="small" onClick={() => setConfirmId(b.id)} sx={{ ...btnMotionSx, borderRadius: 0 }}>
               Cancel booking
             </Button>
           ) : null}
         </Stack>
         {canCancel && confirmId === b.id ? (
-          <Box sx={{ mt: 1.5, bgcolor: "background.paper", borderRadius: 1, p: 1.5 }}>
+          <Box sx={{ mt: 1.5, bgcolor: "background.paper", p: 1.75 }}>
             <Typography variant="body2">
               {refundable
                 ? `Cancel now and get ${hrs(b.minutes)} ${hourWord(b.minutes)} back.`
                 : `This starts in less than ${CANCEL_REFUND_HOURS} hours, so the ${hourWord(b.minutes)} will not come back.`}
             </Typography>
             <Stack direction="row" flexWrap="wrap" gap={1.5} sx={{ mt: 1.5 }}>
-              <Button variant="contained" size="small" onClick={() => cancel(b)}>
+              <Button variant="contained" size="small" onClick={() => cancel(b)} sx={btnMotionSx}>
                 Cancel booking
               </Button>
-              <Button variant="outlined" size="small" onClick={() => setConfirmId(null)}>
+              <Button variant="outlined" size="small" onClick={() => setConfirmId(null)} sx={btnMotionSx}>
                 Keep booking
               </Button>
             </Stack>
           </Box>
         ) : null}
-      </ListItem>
+      </Box>
     );
-  };
-
-  const listSx = {
-    mt: 1.5,
-    bgcolor: "background.default",
-    border: "1px solid",
-    borderColor: "divider",
-    borderRadius: 2,
-    py: 0,
   };
 
   return (
@@ -114,36 +111,34 @@ export default function Bookings({ version, bump, notify, go }: PortalShared) {
         Cancel at least {CANCEL_REFUND_HOURS} hours before the start to get the hours back.
       </PageTitle>
 
-      <Typography variant="h3" component="h2" color="primary">
-        Upcoming
-      </Typography>
+      <SectionLabel>Upcoming</SectionLabel>
       {upcoming.length === 0 ? (
         <Box sx={{ mt: 1.5 }}>
           <Typography variant="body2" color="text.secondary">
             No upcoming bookings.
           </Typography>
-          <Button variant="contained" sx={{ mt: 1.5 }} onClick={() => go("book")}>
+          <Button variant="contained" sx={{ ...btnMotionSx, mt: 1.5 }} onClick={() => go("book")}>
             Book a room
           </Button>
         </Box>
       ) : (
-        <List dense sx={listSx}>
+        <Box component="ul" sx={{ ...listPanelSx, mt: 1.5 }}>
           {upcoming.map((b: Booking) => (
             <Row key={b.id} b={b} canCancel />
           ))}
-        </List>
+        </Box>
       )}
 
       {past.length > 0 ? (
         <>
-          <Typography variant="h3" component="h2" color="primary" sx={{ mt: 4 }}>
-            Past and cancelled
-          </Typography>
-          <List dense sx={listSx}>
+          <Box sx={{ mt: 4 }}>
+            <SectionLabel>Past and cancelled</SectionLabel>
+          </Box>
+          <Box component="ul" sx={{ ...listPanelSx, mt: 1.5 }}>
             {past.map((b: Booking) => (
               <Row key={b.id} b={b} canCancel={false} />
             ))}
-          </List>
+          </Box>
         </>
       ) : null}
     </Box>

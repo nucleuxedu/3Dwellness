@@ -1,7 +1,5 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
 import Stack from "@mui/material/Stack";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -16,10 +14,28 @@ import { useApi } from "@/lib/portal/useApi";
 import HourBlocks from "./HourBlocks";
 import Loading from "./Loading";
 import PageTitle from "./PageTitle";
+import { btnMotionSx, listPanelSx, panelSx, rowDividerSx } from "./ui";
 import type { PortalShared } from "./types";
 
 type Plan = { id: number; name: string; minutes_per_month: number; price: number };
 type LedgerEntry = { id: number; created_at: string; note: string; minutes: number };
+
+function SectionLabel({ children }: { children: string }) {
+  return (
+    <Typography
+      component="h2"
+      sx={{
+        fontSize: "0.8rem",
+        fontWeight: 600,
+        letterSpacing: "0.12em",
+        textTransform: "uppercase",
+        color: "text.secondary",
+      }}
+    >
+      {children}
+    </Typography>
+  );
+}
 
 export default function PlanAndHours({ version, bump, notify }: PortalShared) {
   const me = useApi(api.getMe, [version]);
@@ -54,36 +70,24 @@ export default function PlanAndHours({ version, bump, notify }: PortalShared) {
 
       <HourBlocks granted={balance.granted_minutes} used={balance.used_minutes} />
 
-      <Typography variant="h3" component="h2" color="primary" sx={{ mt: 4 }}>
-        Plans
-      </Typography>
-      <List
-        dense
-        sx={{
-          mt: 1.5,
-          bgcolor: "background.default",
-          border: "1px solid",
-          borderColor: "divider",
-          borderRadius: 2,
-          py: 0,
-        }}
-      >
+      <Box sx={{ mt: 4 }}>
+        <SectionLabel>Plans</SectionLabel>
+      </Box>
+      <Box component="ul" sx={{ ...listPanelSx, mt: 1.5 }}>
         {plans.map((p: Plan) => {
           const isCurrent = p.id === current.id;
           const upgrade = p.minutes_per_month > current.minutes_per_month;
           return (
-            <ListItem
+            <Box
+              component="li"
               key={p.id}
-              alignItems="flex-start"
               sx={{
-                flexDirection: "column",
-                alignItems: "stretch",
+                ...rowDividerSx,
+                px: 2.25,
                 py: 2,
-                px: 2,
-                bgcolor: isCurrent ? "secondary.main" : "transparent",
-                borderBottom: "1px solid",
-                borderColor: "divider",
-                "&:last-child": { borderBottom: 0 },
+                bgcolor: isCurrent ? "rgba(181,201,77,0.22)" : "transparent",
+                borderLeft: isCurrent ? "3px solid" : "3px solid transparent",
+                borderLeftColor: isCurrent ? "secondary.main" : "transparent",
               }}
             >
               <Stack direction="row" flexWrap="wrap" alignItems="center" justifyContent="space-between" gap={1.5}>
@@ -92,55 +96,51 @@ export default function PlanAndHours({ version, bump, notify }: PortalShared) {
                     {p.name}
                   </Typography>
                   <Typography variant="body2" color="text.secondary" sx={{ fontVariantNumeric: "tabular-nums" }}>
-                    {hrs(p.minutes_per_month)} hours a month for ${p.price}, which is $
+                    {hrs(p.minutes_per_month)} hours a month for ${p.price} · $
                     {(p.price / (p.minutes_per_month / 60)).toFixed(2)} an hour
                   </Typography>
                 </Box>
                 {isCurrent ? (
-                  <Typography variant="body2" fontWeight={500} color="primary">
+                  <Typography variant="body2" fontWeight={600} color="primary">
                     Your plan
                   </Typography>
                 ) : confirmId !== p.id ? (
-                  <Button variant="outlined" size="small" onClick={() => setConfirmId(p.id)}>
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    onClick={() => setConfirmId(p.id)}
+                    sx={{ ...btnMotionSx, borderRadius: 0 }}
+                  >
                     Switch to {p.name}
                   </Button>
                 ) : null}
               </Stack>
               {confirmId === p.id ? (
-                <Box sx={{ mt: 1.5, bgcolor: "background.paper", borderRadius: 1, p: 1.5 }}>
+                <Box sx={{ mt: 1.5, bgcolor: "background.paper", p: 1.75 }}>
                   <Typography variant="body2">
                     {upgrade
                       ? `You get ${hrs(p.minutes_per_month - current.minutes_per_month)} more hours now and pay the difference for this month.`
                       : `Your hours stay as they are this month. The ${p.name} plan starts on ${fmtDate(balance.period_end)}.`}
                   </Typography>
                   <Stack direction="row" flexWrap="wrap" gap={1.5} sx={{ mt: 1.5 }}>
-                    <Button variant="contained" size="small" onClick={() => change(p)}>
+                    <Button variant="contained" size="small" onClick={() => change(p)} sx={btnMotionSx}>
                       Switch to {p.name}
                     </Button>
-                    <Button variant="outlined" size="small" onClick={() => setConfirmId(null)}>
+                    <Button variant="outlined" size="small" onClick={() => setConfirmId(null)} sx={btnMotionSx}>
                       Keep {current.name}
                     </Button>
                   </Stack>
                 </Box>
               ) : null}
-            </ListItem>
+            </Box>
           );
         })}
-      </List>
+      </Box>
 
-      <Typography variant="h3" component="h2" color="primary" sx={{ mt: 4 }}>
-        Hour history
-      </Typography>
-      <Box
-        sx={{
-          mt: 1.5,
-          overflowX: "auto",
-          border: "1px solid",
-          borderColor: "divider",
-          borderRadius: 2,
-          bgcolor: "background.default",
-        }}
-      >
+      <Box sx={{ mt: 4 }}>
+        <SectionLabel>Hour history</SectionLabel>
+      </Box>
+      <Box sx={{ ...panelSx, mt: 1.5, overflowX: "auto" }}>
         <Table size="small">
           <TableHead>
             <TableRow>
@@ -158,7 +158,7 @@ export default function PlanAndHours({ version, bump, notify }: PortalShared) {
                   align="right"
                   sx={{
                     fontVariantNumeric: "tabular-nums",
-                    fontWeight: 500,
+                    fontWeight: 600,
                     color: e.minutes > 0 ? "primary.main" : "text.primary",
                   }}
                 >

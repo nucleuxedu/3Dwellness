@@ -3,8 +3,6 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Table from "@mui/material/Table";
@@ -21,6 +19,7 @@ import { TODAY, fmtDay, fmtTime } from "@/lib/portal/dates";
 import { useApi } from "@/lib/portal/useApi";
 import Loading from "./Loading";
 import PageTitle from "./PageTitle";
+import { btnMotionSx, listPanelSx, panelSx, rowDividerSx } from "./ui";
 import type { PortalShared } from "./types";
 
 const FACILITIES = [
@@ -29,6 +28,23 @@ const FACILITIES = [
   { id: "fitness", label: "Fitness room" },
   { id: "yoga", label: "Yoga room" },
 ];
+
+function SectionLabel({ children }: { children: string }) {
+  return (
+    <Typography
+      component="h2"
+      sx={{
+        fontSize: "0.8rem",
+        fontWeight: 600,
+        letterSpacing: "0.12em",
+        textTransform: "uppercase",
+        color: "text.secondary",
+      }}
+    >
+      {children}
+    </Typography>
+  );
+}
 
 export default function FrontDesk({ version, bump, notify }: PortalShared) {
   const data = useApi(api.getFrontDeskToday, [version]);
@@ -59,21 +75,14 @@ export default function FrontDesk({ version, bump, notify }: PortalShared) {
     <Box
       sx={{
         display: "grid",
-        gap: 4,
-        gridTemplateColumns: { lg: "3fr 2fr" },
+        gap: { xs: 4, lg: 6 },
+        gridTemplateColumns: { lg: "1.35fr 0.9fr" },
+        alignItems: "start",
       }}
     >
       <Box>
         <PageTitle title="Front desk">Every room booking today, {fmtDay(TODAY)}.</PageTitle>
-        <Box
-          sx={{
-            overflowX: "auto",
-            border: "1px solid",
-            borderColor: "divider",
-            borderRadius: 2,
-            bgcolor: "background.default",
-          }}
-        >
+        <Box sx={{ ...panelSx, overflowX: "auto" }}>
           <Table size="small">
             <TableHead>
               <TableRow>
@@ -95,7 +104,7 @@ export default function FrontDesk({ version, bump, notify }: PortalShared) {
                 }) => (
                   <TableRow key={b.id}>
                     <TableCell sx={{ whiteSpace: "nowrap", fontVariantNumeric: "tabular-nums" }}>
-                      {fmtTime(b.start)} to {fmtTime(b.end)}
+                      {fmtTime(b.start)}–{fmtTime(b.end)}
                     </TableCell>
                     <TableCell>{b.room_name}</TableCell>
                     <TableCell>{b.practitioner_name}</TableCell>
@@ -109,19 +118,8 @@ export default function FrontDesk({ version, bump, notify }: PortalShared) {
       </Box>
 
       <Box>
-        <Typography variant="h3" component="h2" color="primary">
-          Check in a client
-        </Typography>
-        <Box
-          sx={{
-            mt: 1.5,
-            border: "1px solid",
-            borderColor: "divider",
-            borderRadius: 2,
-            bgcolor: "background.default",
-            p: 2.5,
-          }}
-        >
+        <SectionLabel>Check in a client</SectionLabel>
+        <Box sx={{ ...panelSx, mt: 1.5, p: 2.75 }}>
           <FormControl fullWidth size="small">
             <InputLabel id="desk-client-label">Client</InputLabel>
             <Select
@@ -140,7 +138,7 @@ export default function FrontDesk({ version, bump, notify }: PortalShared) {
             </Select>
           </FormControl>
 
-          <Typography variant="body2" fontWeight={500} sx={{ mt: 2 }}>
+          <Typography variant="body2" fontWeight={500} sx={{ mt: 2.25 }}>
             Facility
           </Typography>
           <ToggleButtonGroup
@@ -155,7 +153,7 @@ export default function FrontDesk({ version, bump, notify }: PortalShared) {
               "& .MuiToggleButtonGroup-grouped": {
                 border: "1px solid",
                 borderColor: "divider",
-                borderRadius: "8px !important",
+                borderRadius: "0 !important",
                 ml: "0 !important",
               },
             }}
@@ -168,56 +166,47 @@ export default function FrontDesk({ version, bump, notify }: PortalShared) {
           </ToggleButtonGroup>
 
           {error ? (
-            <Alert severity="error" sx={{ mt: 2 }} role="alert">
+            <Alert severity="error" sx={{ mt: 2, borderRadius: 0 }} role="alert">
               {error}
             </Alert>
           ) : null}
 
-          <Button variant="contained" sx={{ mt: 2.5 }} onClick={checkIn}>
+          <Button variant="contained" sx={{ ...btnMotionSx, mt: 2.5 }} onClick={checkIn}>
             Check in
           </Button>
         </Box>
 
-        <Typography variant="h3" component="h2" color="primary" sx={{ mt: 4 }}>
-          Checked in today
-        </Typography>
+        <Box sx={{ mt: 4 }}>
+          <SectionLabel>Checked in today</SectionLabel>
+        </Box>
         {data.checkins.length === 0 ? (
           <Typography variant="body2" color="text.secondary" sx={{ mt: 1.5 }}>
             No one has checked in yet.
           </Typography>
         ) : (
-          <List
-            dense
-            sx={{
-              mt: 1.5,
-              bgcolor: "background.default",
-              border: "1px solid",
-              borderColor: "divider",
-              borderRadius: 2,
-              py: 0,
-            }}
-          >
+          <Box component="ul" sx={{ ...listPanelSx, mt: 1.5 }}>
             {data.checkins.map((c: { id: number; client_name: string; facility: string; checked_in_at: string }) => (
-              <ListItem
+              <Box
+                component="li"
                 key={c.id}
                 sx={{
+                  ...rowDividerSx,
+                  display: "flex",
                   justifyContent: "space-between",
-                  py: 1,
+                  gap: 1,
+                  py: 1.25,
                   px: 2,
-                  borderBottom: "1px solid",
-                  borderColor: "divider",
-                  "&:last-child": { borderBottom: 0 },
                 }}
               >
                 <Typography variant="body2">
-                  {c.client_name}, {facilityLabel(c.facility)}
+                  {c.client_name} · {facilityLabel(c.facility)}
                 </Typography>
                 <Typography variant="body2" color="text.secondary" sx={{ fontVariantNumeric: "tabular-nums" }}>
                   {new Date(c.checked_in_at).toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" })}
                 </Typography>
-              </ListItem>
+              </Box>
             ))}
-          </List>
+          </Box>
         )}
       </Box>
     </Box>

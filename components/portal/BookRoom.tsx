@@ -26,12 +26,27 @@ import {
   hourWord,
 } from "@/lib/portal/dates";
 import { useApi } from "@/lib/portal/useApi";
+import { brand } from "@/theme/theme";
 import HourBlocks from "./HourBlocks";
 import Loading from "./Loading";
 import PageTitle from "./PageTitle";
+import { btnMotionSx, panelSx } from "./ui";
 import type { PortalShared } from "./types";
 
 type Sel = { room: number; hour: number; dur: number };
+
+const toggleGroupSx = {
+  mt: 1,
+  flexWrap: "wrap",
+  gap: 1,
+  "& .MuiToggleButtonGroup-grouped": {
+    border: "1px solid",
+    borderColor: "divider",
+    borderRadius: "0 !important",
+    ml: "0 !important",
+    px: 1.5,
+  },
+} as const;
 
 export default function BookRoom({ version, bump, notify, go }: PortalShared) {
   const [date, setDate] = useState(TODAY);
@@ -107,10 +122,10 @@ export default function BookRoom({ version, bump, notify, go }: PortalShared) {
   };
 
   const cellBg = (state: string, chosen: boolean) => {
-    if (chosen) return "warning.main";
+    if (chosen) return brand;
     if (state === "mine") return "primary.main";
-    if (state === "taken") return "action.disabledBackground";
-    if (state === "past") return "action.hover";
+    if (state === "taken") return "rgba(28,36,75,0.18)";
+    if (state === "past") return "rgba(28,36,75,0.05)";
     return "background.default";
   };
 
@@ -130,12 +145,14 @@ export default function BookRoom({ version, bump, notify, go }: PortalShared) {
               aria-pressed={on}
               variant={on ? "contained" : "outlined"}
               sx={{
+                ...btnMotionSx,
                 flex: "none",
-                minWidth: 56,
+                minWidth: 58,
+                borderRadius: 0,
                 flexDirection: "column",
-                py: 1,
+                py: 1.1,
                 px: 1.5,
-                lineHeight: 1.2,
+                lineHeight: 1.15,
               }}
             >
               <Typography component="span" variant="caption" sx={{ opacity: on ? 0.85 : 1 }}>
@@ -149,17 +166,7 @@ export default function BookRoom({ version, bump, notify, go }: PortalShared) {
         })}
       </Stack>
 
-      <Box
-        sx={{
-          mt: 2,
-          overflowX: "auto",
-          border: "1px solid",
-          borderColor: "divider",
-          borderRadius: 2,
-          bgcolor: "background.default",
-          p: 1.5,
-        }}
-      >
+      <Box sx={{ ...panelSx, mt: 2, overflowX: "auto", p: 2 }}>
         <Box
           sx={{
             display: "grid",
@@ -173,7 +180,13 @@ export default function BookRoom({ version, bump, notify, go }: PortalShared) {
             {fmtDay(date)}
           </Typography>
           {hours.map((h) => (
-            <Typography key={h} variant="caption" color="text.secondary" textAlign="center" sx={{ fontVariantNumeric: "tabular-nums" }}>
+            <Typography
+              key={h}
+              variant="caption"
+              color="text.secondary"
+              textAlign="center"
+              sx={{ fontVariantNumeric: "tabular-nums" }}
+            >
               {fmtHour(h)}
             </Typography>
           ))}
@@ -190,22 +203,20 @@ export default function BookRoom({ version, bump, notify, go }: PortalShared) {
                 }`;
                 const sx = {
                   height: 36,
-                  borderRadius: 1,
+                  borderRadius: 0,
                   border: state === "free" ? "1px solid" : "none",
                   borderColor: "divider",
                   bgcolor: cellBg(state, chosen),
                   p: 0,
                   minWidth: 0,
-                  "&:hover": state === "free" ? { bgcolor: chosen ? "warning.main" : "secondary.light" } : undefined,
+                  transition: "background-color 140ms ease, transform 140ms ease",
+                  "&:hover":
+                    state === "free"
+                      ? { bgcolor: chosen ? brand : "rgba(181,201,77,0.35)", transform: "scale(1.04)" }
+                      : undefined,
                 };
                 return state === "free" ? (
-                  <Button
-                    key={h}
-                    aria-label={label}
-                    aria-pressed={chosen}
-                    onClick={() => pick(room.id, h)}
-                    sx={sx}
-                  />
+                  <Button key={h} aria-label={label} aria-pressed={chosen} onClick={() => pick(room.id, h)} sx={sx} />
                 ) : (
                   <Box key={h} role="img" aria-label={label} sx={sx} />
                 );
@@ -215,15 +226,15 @@ export default function BookRoom({ version, bump, notify, go }: PortalShared) {
         </Box>
       </Box>
 
-      <Stack direction="row" flexWrap="wrap" gap={{ xs: 1, sm: 2.5 }} sx={{ mt: 1.5 }}>
+      <Stack direction="row" flexWrap="wrap" gap={{ xs: 1, sm: 2.5 }} sx={{ mt: 1.75 }}>
         {[
           { label: "Free", bgcolor: "background.default", border: "1px solid", borderColor: "divider" },
           { label: "Your booking", bgcolor: "primary.main" },
-          { label: "Taken", bgcolor: "action.disabledBackground" },
-          { label: "Your selection", bgcolor: "warning.main" },
+          { label: "Taken", bgcolor: "rgba(28,36,75,0.18)" },
+          { label: "Your selection", bgcolor: brand },
         ].map((item) => (
           <Stack key={item.label} direction="row" alignItems="center" gap={1}>
-            <Box sx={{ width: 12, height: 12, borderRadius: 0.5, ...item }} />
+            <Box sx={{ width: 12, height: 12, ...item }} />
             <Typography variant="caption" color="text.secondary">
               {item.label}
             </Typography>
@@ -236,24 +247,15 @@ export default function BookRoom({ version, bump, notify, go }: PortalShared) {
           Select a free slot to set the length and confirm.
         </Typography>
       ) : (
-        <Box
-          component="section"
-          aria-live="polite"
-          sx={{
-            mt: 3,
-            maxWidth: 560,
-            border: "1px solid",
-            borderColor: "divider",
-            borderRadius: 2,
-            bgcolor: "background.default",
-            p: 2.5,
-          }}
-        >
-          <Typography variant="h3" component="h2" color="primary">
-            {selRoom.name}, {fmtDay(date)}, {fmtHour(sel.hour)} to {fmtHour(sel.hour + sel.dur)}
+        <Box component="section" aria-live="polite" sx={{ ...panelSx, mt: 3, maxWidth: 560, p: 3 }}>
+          <Typography component="h2" sx={{ fontSize: "1.15rem", fontWeight: 500, letterSpacing: "-0.02em" }}>
+            {selRoom.name}
+          </Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
+            {fmtDay(date)} · {fmtHour(sel.hour)} to {fmtHour(sel.hour + sel.dur)}
           </Typography>
 
-          <Typography variant="body2" fontWeight={500} sx={{ mt: 2 }}>
+          <Typography variant="body2" fontWeight={500} sx={{ mt: 2.5 }}>
             Length
           </Typography>
           <ToggleButtonGroup
@@ -261,7 +263,7 @@ export default function BookRoom({ version, bump, notify, go }: PortalShared) {
             size="small"
             value={sel.dur}
             onChange={(_, n) => n != null && setSel({ ...sel, dur: n })}
-            sx={{ mt: 1, flexWrap: "wrap", gap: 1, "& .MuiToggleButtonGroup-grouped": { border: "1px solid", borderColor: "divider", borderRadius: "8px !important", ml: "0 !important" } }}
+            sx={toggleGroupSx}
           >
             {Array.from({ length: maxHours(sel.room, sel.hour) }, (_, i) => i + 1).map((n) => (
               <ToggleButton key={n} value={n}>
@@ -270,7 +272,7 @@ export default function BookRoom({ version, bump, notify, go }: PortalShared) {
             ))}
           </ToggleButtonGroup>
 
-          <FormControl fullWidth size="small" sx={{ mt: 2 }}>
+          <FormControl fullWidth size="small" sx={{ mt: 2.5 }}>
             <InputLabel id="book-client-label">Client (optional)</InputLabel>
             <Select
               labelId="book-client-label"
@@ -298,22 +300,22 @@ export default function BookRoom({ version, bump, notify, go }: PortalShared) {
           </Box>
 
           {error ? (
-            <Alert severity="error" sx={{ mt: 1.5 }} role="alert">
+            <Alert severity="error" sx={{ mt: 1.5, borderRadius: 0 }} role="alert">
               {error}
             </Alert>
           ) : null}
 
           <Stack direction="row" flexWrap="wrap" gap={1.5} sx={{ mt: 2.5 }}>
             {short ? (
-              <Button variant="contained" onClick={() => go("plan")}>
+              <Button variant="contained" onClick={() => go("plan")} sx={btnMotionSx}>
                 See plans
               </Button>
             ) : (
-              <Button variant="contained" disabled={saving} onClick={book}>
+              <Button variant="contained" disabled={saving} onClick={book} sx={btnMotionSx}>
                 Book room
               </Button>
             )}
-            <Button variant="outlined" onClick={() => setSel(null)}>
+            <Button variant="outlined" onClick={() => setSel(null)} sx={btnMotionSx}>
               Clear selection
             </Button>
           </Stack>
