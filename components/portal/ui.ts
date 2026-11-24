@@ -6,6 +6,9 @@ export const panelSx: SxProps<Theme> = {
   border: "1px solid",
   borderColor: "divider",
   borderRadius: 0,
+  maxWidth: "100%",
+  minWidth: 0,
+  boxSizing: "border-box",
 };
 
 export const listPanelSx: SxProps<Theme> = {

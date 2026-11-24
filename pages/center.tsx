@@ -1,6 +1,8 @@
 import { FormEvent, useState } from "react";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { motion, useReducedMotion } from "framer-motion";
+import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
@@ -9,25 +11,42 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import BrandMark from "@/components/BrandMark";
 
+/** Dummy practitioner credentials for local demo. */
+const DEMO_EMAIL = "maya@example.com";
+const DEMO_PASSWORD = "wellness123";
+
 export default function CentersLoginPage() {
+  const router = useRouter();
   const reduce = useReducedMotion();
-  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
-  const [status, setStatus] = useState("");
+  const [errors, setErrors] = useState<{ email?: string; password?: string; form?: string }>({});
+  const [submitting, setSubmitting] = useState(false);
 
   function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const email = String(data.get("email") || "").trim();
+    const email = String(data.get("email") || "").trim().toLowerCase();
     const password = String(data.get("password") || "");
     const next: typeof errors = {};
     if (!email.includes("@")) next.email = "Enter a valid email address.";
     if (!password) next.password = "Enter your password.";
     setErrors(next);
-    if (Object.keys(next).length) {
-      setStatus("");
+    if (Object.keys(next).length) return;
+
+    if (email !== DEMO_EMAIL || password !== DEMO_PASSWORD) {
+      setErrors({ form: "Email or password is wrong. Use the demo credentials below." });
       return;
     }
-    setStatus("Signed in locally. Connect an auth service to make this live.");
+
+    setSubmitting(true);
+    try {
+      sessionStorage.setItem(
+        "3dwellness.auth",
+        JSON.stringify({ email: DEMO_EMAIL, name: "Maya Lindqvist", at: Date.now() })
+      );
+    } catch {
+      /* ignore storage failures in private mode */
+    }
+    router.push("/PractitionerPortal");
   }
 
   return (
@@ -86,7 +105,7 @@ export default function CentersLoginPage() {
                 Sign in
               </Typography>
               <Typography sx={{ color: "text.secondary" }}>
-                Enter your email and password to continue.
+                Enter your email and password to open the practitioner portal.
               </Typography>
             </Stack>
 
@@ -97,6 +116,7 @@ export default function CentersLoginPage() {
                 type="email"
                 required
                 autoComplete="email"
+                defaultValue={DEMO_EMAIL}
                 fullWidth
                 error={Boolean(errors.email)}
                 helperText={errors.email || " "}
@@ -107,18 +127,22 @@ export default function CentersLoginPage() {
                 type="password"
                 required
                 autoComplete="current-password"
+                defaultValue={DEMO_PASSWORD}
                 fullWidth
                 error={Boolean(errors.password)}
                 helperText={errors.password || " "}
               />
-              <Button type="submit" variant="contained" size="large">
-                Sign in
-              </Button>
-              {status ? (
-                <Typography variant="body2" role="status" sx={{ color: "text.secondary" }}>
-                  {status}
-                </Typography>
+              {errors.form ? (
+                <Alert severity="error" sx={{ borderRadius: 0 }} role="alert">
+                  {errors.form}
+                </Alert>
               ) : null}
+              <Button type="submit" variant="contained" size="large" disabled={submitting}>
+                {submitting ? "Signing in…" : "Sign in"}
+              </Button>
+              <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                Demo: {DEMO_EMAIL} / {DEMO_PASSWORD}
+              </Typography>
             </Box>
           </Box>
         </Container>
